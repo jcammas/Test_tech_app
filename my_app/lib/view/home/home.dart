@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/view/components/app_bar.dart';
+import 'package:my_app/view/components/bottom_navigation_bar.dart';
 import 'package:my_app/view/home/widget/images_list.dart';
 
 class Home extends StatefulWidget {
@@ -32,12 +34,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-  // Color(0XFF636e72)
-
   @override
   Widget build(BuildContext context) {
-    // double screenHeight = MediaQuery.of(context).size.height;
-
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -45,69 +43,22 @@ class _HomeState extends State<Home> {
               end: Alignment.bottomRight,
               colors: [Colors.grey, Colors.grey])),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
           backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                  child: TextField(
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Search',
-                    hintStyle: const TextStyle(color: Colors.white),
-                    prefixIcon: const Icon(
-                      Icons.search,
-                      color: Colors.white,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.clear,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    )),
-              )),
-            ],
+          appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              centerTitle: true,
+              elevation: 0.0,
+              title: const MyAppBar()),
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: index == 0
+                ? const MyList()
+                : const SizedBox(
+                    child: Text("Favoris !",
+                        style: TextStyle(color: Colors.white)),
+                  ),
           ),
-          elevation: 0.0,
-        ),
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: index == 0
-              ? const MyList()
-              : const SizedBox(
-                  child:
-                      Text("Favoris !", style: TextStyle(color: Colors.white)),
-                ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                size: 35,
-                color: Colors.white,
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                size: 35,
-                color: Colors.white,
-              ),
-              label: '',
-            )
-          ],
-          onTap: switchIndex,
-        ),
-      ),
+          bottomNavigationBar: MyBottomBar(onPressed: switchIndex)),
     );
   }
 }
