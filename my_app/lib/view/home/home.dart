@@ -32,6 +32,8 @@ class _HomeState extends State<Home> {
     });
   }
 
+  // Color(0XFF636e72)
+
   @override
   Widget build(BuildContext context) {
     // double screenHeight = MediaQuery.of(context).size.height;
@@ -41,7 +43,7 @@ class _HomeState extends State<Home> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.black, Color(0XFF636e72)])),
+              colors: [Colors.grey, Colors.grey])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -90,7 +92,7 @@ class _HomeState extends State<Home> {
               icon: Icon(
                 Icons.home,
                 size: 35,
-                color: Colors.black,
+                color: Colors.white,
               ),
               label: '',
             ),
@@ -98,7 +100,7 @@ class _HomeState extends State<Home> {
               icon: Icon(
                 Icons.favorite,
                 size: 35,
-                color: Colors.black,
+                color: Colors.white,
               ),
               label: '',
             )
