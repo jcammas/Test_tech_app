@@ -1,4 +1,9 @@
+// ignore_for_file: unused_local_variable, unused_import, avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:my_app/model/model_images.dart';
+import 'package:provider/provider.dart';
+import 'package:my_app/provider/provider_images.dart';
 
 class MyList extends StatefulWidget {
   const MyList({super.key});
@@ -8,82 +13,133 @@ class MyList extends StatefulWidget {
 }
 
 class _MyListState extends State<MyList> {
+  late Future<List<ImageModel>> _future;
+  int page = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _future = Provider.of<ImgProvider>(context, listen: false).fetchImages(30);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return ListView(
-      padding: const EdgeInsets.all(10),
-      physics: const AlwaysScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        Card(
-          semanticContainer: true,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shadowColor: Colors.grey,
-          elevation: 5,
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(
-                color: Color.fromARGB(255, 208, 208, 208), width: 1.0),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  Container(
-                      decoration: const BoxDecoration(color: Colors.white),
-                      child: Image.network(
-                          "https://images.unsplash.com/photo-1590507014612-08b6a0b4e31e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=736&q=80",
-                          fit: BoxFit.fill)),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: screenHeight * 0.015,
+    return FutureBuilder(
+      future: _future,
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ImageModel>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            return NotificationListener<ScrollNotification>(
+                onNotification: (scrollNotification) {
+                  if (scrollNotification is ScrollEndNotification &&
+                      scrollNotification.metrics.pixels ==
+                          scrollNotification.metrics.maxScrollExtent) {
+                    setState(() {
+                      _future = Provider.of<ImgProvider>(context, listen: false)
+                          .fetchMoreImages(30);
+                    });
+                  }
+                  return false;
+                },
+                child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, i) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 12, 5, 12),
+                      child: Card(
+                        semanticContainer: true,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shadowColor: Colors.grey,
+                        elevation: 0,
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          side: const BorderSide(
+                              color: Color.fromARGB(255, 0, 0, 0), width: 0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        const Align(
-                          alignment: Alignment.topRight,
-                          child: Icon(
-                            Icons.favorite_border,
-                            size: 25,
-                            color: Colors.black,
-                          ),
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                child: InkWell(
+                                  onTap: () => {print("zoom photo")},
+                                  child: Image.network(snapshot.data![i].url,
+                                      fit: BoxFit.fill),
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        print("like");
+                                      },
+                                      icon: const Icon(
+                                        Icons.favorite_border,
+                                        size: 25,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        print("download");
+                                      },
+                                      icon: const Icon(
+                                        Icons.download,
+                                        size: 25,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        print("share");
+                                      },
+                                      icon: const Icon(
+                                        Icons.share,
+                                        size: 25,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: screenHeight * 0.015,
-                        ),
-                        const Align(
-                          alignment: Alignment.topRight,
-                          child: Icon(
-                            Icons.download,
-                            size: 25,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(
-                          height: screenHeight * 0.015,
-                        ),
-                        const Align(
-                          alignment: Alignment.topRight,
-                          child: Icon(
-                            Icons.share,
-                            size: 25,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+                      ),
+                    );
+                  },
+                ));
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Failed to load images'),
+            );
+          } else {
+            return const Center(
+              child: Text('No data'),
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 }
