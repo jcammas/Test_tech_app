@@ -10,7 +10,7 @@ class ImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 12, 5, 12),
+      padding: const EdgeInsets.fromLTRB(5, 0, 5, 20),
       child: Card(
         semanticContainer: true,
         clipBehavior: Clip.antiAliasWithSaveLayer,
