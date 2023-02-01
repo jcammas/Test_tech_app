@@ -19,7 +19,7 @@ class ImgProvider with ChangeNotifier {
   Future<List<SearchModel>> searchImages(String? query) async {
     try {
       final response = await http.get(Uri.parse(
-          "https://api.unsplash.com/search/photos?query=$query&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
+          "https://api.unsplash.com/search/photos?query=$query&per_page=30&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -40,14 +40,20 @@ class ImgProvider with ChangeNotifier {
     pageSearch++;
     try {
       final response = await http.get(Uri.parse(
-          "https://api.unsplash.com/search/photos?page=$pageSearch&query=$query&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
+          "https://api.unsplash.com/search/photos?page=$pageSearch&query=$query&per_page=30&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         final data = jsonData['results'] as List;
         _searchImages = data.map((item) => SearchModel.fromJson(item)).toList();
-        notifyListeners();
-        return _searchImages;
+        if (data.isEmpty) {
+          pageSearch--;
+          notifyListeners();
+          return searchImages(query);
+        } else {
+          notifyListeners();
+          return _searchImages;
+        }
       } else {
         throw Exception("failed to load data");
       }
