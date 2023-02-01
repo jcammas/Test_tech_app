@@ -50,6 +50,7 @@ class _MyListState extends State<MyList> {
                   itemBuilder: (BuildContext context, i) {
                     return ImageCard(
                       url: snapshot.data![i].url,
+                      id: snapshot.data![i].id,
                     );
                   },
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/view/components/app_bar.dart';
 import 'package:my_app/view/components/bottom_navigation_bar.dart';
+import 'package:my_app/view/favoris/favoris.dart';
 import 'package:my_app/view/searchScreen/widgets/search_bar.dart';
 
 class Home extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomeState extends State<Home> {
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Column(
               children: [
-                index == 0 ? const SearchScreen() : const Text("Favoris"),
+                index == 0 ? const SearchScreen() : const FavorisList(),
               ],
             ),
           ),

@@ -4,24 +4,26 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/helper/db_helper.dart';
 import 'package:my_app/provider/provider_images.dart';
-import 'package:uuid/uuid.dart';
+
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 
-class ImageCard extends StatefulWidget {
+class ImageCardFav extends StatefulWidget {
   final String url;
   final String id;
 
-  const ImageCard({super.key, required this.url, required this.id});
+  const ImageCardFav({super.key, required this.url, required this.id});
+
+  static const String routeName = "/favoris";
 
   @override
-  State<ImageCard> createState() => _ImageCardState();
+  State<ImageCardFav> createState() => _ImageCardFavState();
 }
 
-class _ImageCardState extends State<ImageCard> {
+class _ImageCardFavState extends State<ImageCardFav> {
   bool isDownloading = false;
   bool isFav = false;
 
@@ -96,21 +98,16 @@ class _ImageCardState extends State<ImageCard> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                    onPressed: () {
+                    onPressed: () async {
                       var rng = Random();
                       int id = rng.nextInt(100000000);
-
-                      setState(() {
-                        isFav = !isFav;
-                      });
                       Provider.of<ImgProvider>(context, listen: false)
-                          .addToFavorites(
+                          .removeFromFavorites(
                         ImageData(id: id, imageUrl: widget.url),
                       );
-                      print("j'ajoute en favoris");
                     },
                     icon: const Icon(
-                      Icons.add,
+                      Icons.remove,
                       size: 25,
                       color: Colors.grey,
                     ),
@@ -150,3 +147,25 @@ class _ImageCardState extends State<ImageCard> {
     );
   }
 }
+
+
+
+
+// IconButton(
+//                           onPressed: () {
+//                             var rng = Random();
+//                             int id = rng.nextInt(100000000);
+//                             Provider.of<ImgProvider>(context, listen: false)
+//                                 .removeFromFavorites(
+//                                     ImageData(id: id, imageUrl: widget.url));
+
+//                             setState(() {
+//                               isFav = !isFav;
+//                             });
+//                           },
+//                           icon: const Icon(
+//                             Icons.remove,
+//                             size: 25,
+//                             color: Colors.grey,
+//                           ),
+//                         ),

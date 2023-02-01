@@ -62,6 +62,7 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
                   itemBuilder: (context, index) {
                     return ImageCard(
                       url: snapshot.data![index].url,
+                      id: snapshot.data![index].id,
                     );
                   },
                 ),

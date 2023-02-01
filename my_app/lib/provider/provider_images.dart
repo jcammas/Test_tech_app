@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_app/helper/db_helper.dart';
 import 'package:my_app/model/model_search.dart';
 
 import '../model/model_images.dart';
@@ -15,6 +17,29 @@ class ImgProvider with ChangeNotifier {
 
   int page = 1;
   int pageSearch = 1;
+
+  List<ImageData> _favorites = [];
+  DbHelper _dbHelper = DbHelper();
+
+  UnmodifiableListView<ImageData> get favs => UnmodifiableListView(_favorites);
+
+  Future<void> fetchFavorites() async {
+    _favorites = await _dbHelper.getAllImageData();
+    print(_favorites);
+    notifyListeners();
+  }
+
+  Future<void> addToFavorites(ImageData imageData) async {
+    await _dbHelper.addImageData(imageData);
+    _favorites.add(imageData);
+    notifyListeners();
+  }
+
+  Future<void> removeFromFavorites(ImageData imageData) async {
+    await _dbHelper.deleteImageData(imageData.imageUrl);
+    _favorites.removeWhere((fav) => fav.imageUrl == imageData.imageUrl);
+    notifyListeners();
+  }
 
   Future<List<SearchModel>> searchImages(String? query) async {
     try {
