@@ -26,7 +26,11 @@ class ImageCard extends StatelessWidget {
             Container(
                 decoration: const BoxDecoration(color: Colors.white),
                 child: InkWell(
-                  onTap: () => {print("zoom photo")},
+                  onTap: () async {
+                    Object arguments = {"url": url};
+                    String query = '/fullScreen';
+                    Navigator.pushNamed(context, query, arguments: arguments);
+                  },
                   child: Image.network(url, fit: BoxFit.fill),
                 )),
             Padding(
