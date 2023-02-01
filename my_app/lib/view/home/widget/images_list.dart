@@ -15,7 +15,6 @@ class MyList extends StatefulWidget {
 
 class _MyListState extends State<MyList> {
   late Future<List<ImageModel>> _future;
-  int page = 1;
 
   @override
   void initState() {
@@ -27,13 +26,14 @@ class _MyListState extends State<MyList> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return FutureBuilder(
-      future: _future,
-      builder:
-          (BuildContext context, AsyncSnapshot<List<ImageModel>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            return NotificationListener<ScrollNotification>(
+    return Flexible(
+      child: FutureBuilder(
+        future: _future,
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ImageModel>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
+              return NotificationListener<ScrollNotification>(
                 onNotification: (scrollNotification) {
                   if (scrollNotification is ScrollEndNotification &&
                       scrollNotification.metrics.pixels ==
@@ -52,22 +52,24 @@ class _MyListState extends State<MyList> {
                       url: snapshot.data![i].url,
                     );
                   },
-                ));
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Failed to load images'),
-            );
+                ),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Failed to load images'),
+              );
+            } else {
+              return const Center(
+                child: Text('No data'),
+              );
+            }
           } else {
             return const Center(
-              child: Text('No data'),
+              child: CircularProgressIndicator(),
             );
           }
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+        },
+      ),
     );
   }
 }

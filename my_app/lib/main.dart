@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/provider/provider_images.dart';
 import 'package:my_app/view/home/home.dart';
+import 'package:my_app/view/searchScreen/search_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -14,12 +15,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final ImgProvider imageProvider = ImgProvider();
 
-    return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: imageProvider)],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        home: Home(),
+    return ChangeNotifierProvider(
+      create: (_) => imageProvider,
+      child: MultiProvider(
+        providers: [ChangeNotifierProvider.value(value: imageProvider)],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          initialRoute: "/",
+          routes: {
+            '/': (_) => const Home(),
+            '/searchScreenResults': (_) => const SearchScreenResults(),
+          },
+          // onUnknownRoute: (_) => MaterialPageRoute(
+          //   builder: (_) => const NotFound(),
+          // ),
+        ),
       ),
     );
   }
