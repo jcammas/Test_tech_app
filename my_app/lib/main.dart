@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/provider/provider_images.dart';
+import 'package:my_app/view/404/not_found.dart';
 import 'package:my_app/view/home/home.dart';
 import 'package:my_app/view/home/widget/full_screen.dart';
 import 'package:my_app/view/searchScreen/search_screen.dart';
@@ -29,9 +30,9 @@ class MyApp extends StatelessWidget {
             '/searchScreenResults': (_) => const SearchScreenResults(),
             '/fullScreen': (_) => const FullScreen(),
           },
-          // onUnknownRoute: (_) => MaterialPageRoute(
-          //   builder: (_) => const NotFound(),
-          // ),
+          onUnknownRoute: (_) => MaterialPageRoute(
+            builder: (_) => const NotFound(),
+          ),
         ),
       ),
     );
