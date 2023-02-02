@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         providers: [ChangeNotifierProvider.value(value: imageProvider)],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Unsplash App',
           initialRoute: "/",
           routes: {
             '/': (_) => const Home(),

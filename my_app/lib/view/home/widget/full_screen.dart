@@ -43,7 +43,7 @@ class _FullScreenState extends State<FullScreen> {
                 },
                 child: Image.network(
                   url,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                   alignment: Alignment.center,
                 ),
               ),

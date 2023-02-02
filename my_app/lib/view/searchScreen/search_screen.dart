@@ -59,9 +59,10 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, i) {
                     return ImageCard(
-                      url: snapshot.data![index].url,
+                      url: snapshot.data![i].url,
+                      id: snapshot.data![i].id,
                     );
                   },
                 ),

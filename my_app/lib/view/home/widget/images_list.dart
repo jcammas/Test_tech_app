@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, unused_import, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:my_app/helper/db_helper.dart';
 import 'package:my_app/model/model_images.dart';
 import 'package:my_app/view/home/widget/image_card.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,7 @@ class _MyListState extends State<MyList> {
                   itemBuilder: (BuildContext context, i) {
                     return ImageCard(
                       url: snapshot.data![i].url,
+                      id: snapshot.data![i].id,
                     );
                   },
                 ),

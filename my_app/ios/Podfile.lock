@@ -2,6 +2,9 @@ PODS:
   - Flutter (1.0.0)
   - flutter_share (0.0.1):
     - Flutter
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - image_gallery_saver (1.5.0):
     - Flutter
   - path_provider_foundation (0.0.1):
@@ -11,6 +14,9 @@ PODS:
     - Flutter
   - share_plus (0.0.1):
     - Flutter
+  - sqflite (0.0.2):
+    - Flutter
+    - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -19,6 +25,11 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
+
+SPEC REPOS:
+  trunk:
+    - FMDB
 
 EXTERNAL SOURCES:
   Flutter:
@@ -33,14 +44,18 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_share: 4be0208963c60b537e6255ed2ce1faae61cd9ac2
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_gallery_saver: 259eab68fb271cfd57d599904f7acdc7832e7ef2
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
+  sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
