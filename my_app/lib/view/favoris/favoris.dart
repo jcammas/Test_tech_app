@@ -23,11 +23,15 @@ class _FavorisListState extends State<FavorisList> {
   bool isDownloading = false;
 
   static const snackBar = SnackBar(
-    content: Text('Successful download.'),
+    content: Center(child: Text('Successful download.')),
   );
 
   static const snackBarError = SnackBar(
-    content: Text('Download failed.'),
+    content: Center(child: Text('Download failed.')),
+  );
+
+  static const snackBarRemoveFav = SnackBar(
+    content: Center(child: Text('Removed from favorites 👋')),
   );
 
   void shareImage(String url) async {
@@ -129,6 +133,8 @@ class _FavorisListState extends State<FavorisList> {
                                             listen: false)
                                         .fetchFavorites();
                                   });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBarRemoveFav);
                                 },
                                 icon: const Icon(
                                   Icons.remove,
@@ -177,7 +183,9 @@ class _FavorisListState extends State<FavorisList> {
             );
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             );
           }
         },

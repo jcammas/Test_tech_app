@@ -31,7 +31,7 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.grey, Colors.grey])),
+              colors: [Colors.grey, Colors.black87])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -73,7 +73,9 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
               );
             } else {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
               );
             }
           },

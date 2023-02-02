@@ -15,12 +15,13 @@ class _MyAppBarState extends State<MyAppBar> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: const <Widget>[
         Text(
-          "Unsplash App",
+          "Unsplash",
           style: TextStyle(
-              fontSize: 24,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontStyle: FontStyle.italic),
+            fontSize: 24,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.normal,
+          ),
         )
       ],
     );

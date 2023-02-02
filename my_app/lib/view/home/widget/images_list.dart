@@ -7,14 +7,14 @@ import 'package:my_app/view/home/widget/image_card.dart';
 import 'package:provider/provider.dart';
 import 'package:my_app/provider/provider_images.dart';
 
-class MyList extends StatefulWidget {
-  const MyList({super.key});
+class ImagesList extends StatefulWidget {
+  const ImagesList({super.key});
 
   @override
-  State<MyList> createState() => _MyListState();
+  State<ImagesList> createState() => _ImagesListState();
 }
 
-class _MyListState extends State<MyList> {
+class _ImagesListState extends State<ImagesList> {
   late Future<List<ImageModel>> _future;
 
   @override
@@ -35,27 +35,27 @@ class _MyListState extends State<MyList> {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {
               return NotificationListener<ScrollNotification>(
-                onNotification: (scrollNotification) {
-                  if (scrollNotification is ScrollEndNotification &&
-                      scrollNotification.metrics.pixels ==
-                          scrollNotification.metrics.maxScrollExtent) {
-                    setState(() {
-                      _future = Provider.of<ImgProvider>(context, listen: false)
-                          .fetchMoreImages(30);
-                    });
-                  }
-                  return false;
-                },
-                child: ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, i) {
-                    return ImageCard(
-                      url: snapshot.data![i].url,
-                      id: snapshot.data![i].id,
-                    );
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollEndNotification &&
+                        scrollNotification.metrics.pixels ==
+                            scrollNotification.metrics.maxScrollExtent) {
+                      setState(() {
+                        _future =
+                            Provider.of<ImgProvider>(context, listen: false)
+                                .fetchMoreImages(30);
+                      });
+                    }
+                    return false;
                   },
-                ),
-              );
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, i) {
+                      return ImageCard(
+                        url: snapshot.data![i].url,
+                        id: snapshot.data![i].id,
+                      );
+                    },
+                  ));
             } else if (snapshot.hasError) {
               return const Center(
                 child: Text('Failed to load images'),
@@ -67,7 +67,9 @@ class _MyListState extends State<MyList> {
             }
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
             );
           }
         },

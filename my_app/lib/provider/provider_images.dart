@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
@@ -63,7 +61,6 @@ class ImgProvider with ChangeNotifier {
         throw Exception("failed to load data");
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -97,7 +94,6 @@ class ImgProvider with ChangeNotifier {
         throw Exception("failed to load data");
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -122,7 +118,6 @@ class ImgProvider with ChangeNotifier {
         throw Exception("failed to load data");
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -148,7 +143,6 @@ class ImgProvider with ChangeNotifier {
         throw Exception("failed to load data");
       }
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
