@@ -3,23 +3,22 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-
+import 'package:my_app/globals.dart' as globals;
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/helper/db_helper.dart';
 import 'package:my_app/model/model_db_helper.dart';
 import 'package:my_app/model/model_search.dart';
-
 import '../model/model_images.dart';
 
 class ImgProvider with ChangeNotifier {
   List<ImageModel> _images = [];
   List<SearchModel> _searchImages = [];
+  final List<ImageData> _favorites = [];
 
   int page = 1;
   int pageSearch = 1;
 
-  final List<ImageData> _favorites = [];
   final DbHelper _dbHelper = DbHelper();
 
   UnmodifiableListView<ImageData> get favs => UnmodifiableListView(_favorites);
@@ -27,7 +26,6 @@ class ImgProvider with ChangeNotifier {
   Future<List<ImageData>> fetchFavorites() async {
     DbHelper dbHelper = DbHelper();
     List<ImageData> imageDataList = await dbHelper.getAllImageData();
-
     return imageDataList;
   }
 
@@ -44,10 +42,16 @@ class ImgProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<SearchModel>> searchImages(String? query) async {
+  Future<List<SearchModel>> searchImages(String? query, int perPage) async {
+    String url =
+        "${globals.urlApi}search/photos?page=$pageSearch&query=$query&per_page=$perPage&client_id=${globals.key}";
     try {
-      final response = await http.get(Uri.parse(
-          "https://api.unsplash.com/search/photos?query=$query&per_page=30&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -64,11 +68,17 @@ class ImgProvider with ChangeNotifier {
     }
   }
 
-  Future<List<SearchModel>> searchMoreImages(String? query) async {
+  Future<List<SearchModel>> searchMoreImages(String? query, int perPage) async {
     pageSearch++;
+    String url =
+        "${globals.urlApi}search/photos?page=$pageSearch&query=$query&per_page=$perPage&client_id=${globals.key}";
     try {
-      final response = await http.get(Uri.parse(
-          "https://api.unsplash.com/search/photos?page=$pageSearch&query=$query&per_page=30&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y"));
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
@@ -78,7 +88,7 @@ class ImgProvider with ChangeNotifier {
         if (data.isEmpty) {
           pageSearch--;
           notifyListeners();
-          return searchImages(query);
+          return searchImages(query, 30);
         } else {
           notifyListeners();
           return _searchImages;
@@ -94,9 +104,14 @@ class ImgProvider with ChangeNotifier {
 
   Future<List<ImageModel>> fetchImages(int perPage) async {
     String url =
-        'https://api.unsplash.com/photos?page=$page&per_page=$perPage&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y';
+        '${globals.urlApi}photos?page=$page&per_page=$perPage&client_id=${globals.key}';
     try {
-      http.Response response = await http.get(Uri.parse(url));
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -115,9 +130,14 @@ class ImgProvider with ChangeNotifier {
   Future<List<ImageModel>> fetchMoreImages(int perPage) async {
     page++;
     String url =
-        'https://api.unsplash.com/photos?page=$page&per_page=$perPage&client_id=ZCtlipEM8ix3jzwSone0mtvsPeENgZy7CSluV1J7d7Y';
+        '${globals.urlApi}photos?page=$page&per_page=$perPage&client_id=${globals.key}';
     try {
-      http.Response response = await http.get(Uri.parse(url));
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

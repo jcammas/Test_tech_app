@@ -21,7 +21,7 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
   void initState() {
     super.initState();
     _future = Provider.of<ImgProvider>(context, listen: false)
-        .searchImages(widget.query);
+        .searchImages(widget.query, 30);
   }
 
   @override
@@ -51,7 +51,7 @@ class _SearchScreenResultsState extends State<SearchScreenResults> {
                           scrollNotification.metrics.maxScrollExtent) {
                     setState(() {
                       _future = Provider.of<ImgProvider>(context, listen: false)
-                          .searchMoreImages(widget.query);
+                          .searchMoreImages(widget.query, 30);
                     });
                   }
                   return false;
