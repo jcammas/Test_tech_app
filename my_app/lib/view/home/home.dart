@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.grey, Colors.grey])),
+              colors: [Colors.grey, Colors.black87])),
       child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
-          bottomNavigationBar: MyBottomBar(onPressed: switchIndex)),
+          bottomNavigationBar: MyBottomBar(onPressed: switchIndex, i: index)),
     );
   }
 }

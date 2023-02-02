@@ -53,12 +53,20 @@ class _SearchScreenState extends State<SearchScreen> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   child: TextField(
+                    style: const TextStyle(color: Colors.white),
                     controller: searchController,
                     decoration: InputDecoration(
                       hintText: "Search for Images...",
-                      prefixIcon: const Icon(Icons.search),
+                      hintStyle: const TextStyle(color: Colors.white),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                      ),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.send),
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
                         onPressed: () async {
                           if (searchController.text.isEmpty) {
                           } else {
@@ -69,6 +77,10 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Colors.white),
                       ),
                     ),
                     onSubmitted: (value) async {
@@ -83,7 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ],
             ),
           ),
-          const MyList(),
+          const ImagesList(),
         ],
       ),
     );

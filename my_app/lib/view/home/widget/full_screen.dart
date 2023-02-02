@@ -35,12 +35,8 @@ class _FullScreenState extends State<FullScreen> {
             children: [
               PinchZoom(
                 maxScale: 2.5,
-                onZoomStart: () {
-                  print('Start zooming');
-                },
-                onZoomEnd: () {
-                  print('Stop zooming');
-                },
+                onZoomStart: () {},
+                onZoomEnd: () {},
                 child: Image.network(
                   url,
                   fit: BoxFit.contain,

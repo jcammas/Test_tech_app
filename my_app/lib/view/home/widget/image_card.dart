@@ -28,11 +28,15 @@ class _ImageCardState extends State<ImageCard> {
   bool isDownloading = false;
 
   static const snackBar = SnackBar(
-    content: Text('Successful download.'),
+    content: Center(child: Text('Successful download.')),
   );
 
   static const snackBarError = SnackBar(
-    content: Text('Download failed.'),
+    content: Center(child: Text('Download failed.')),
+  );
+
+  static const snackBarAddFav = SnackBar(
+    content: Center(child: Text('Added to favorites 🫶')),
   );
 
   void shareImage(String url) async {
@@ -109,6 +113,8 @@ class _ImageCardState extends State<ImageCard> {
                           imageUrl: widget.url,
                         ),
                       );
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(snackBarAddFav);
                     },
                     icon: const Icon(
                       Icons.add,
