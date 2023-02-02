@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/provider/provider_images.dart';
-import 'package:my_app/view/favoris/favoris.dart';
 import 'package:my_app/view/home/home.dart';
 import 'package:my_app/view/home/widget/full_screen.dart';
 import 'package:my_app/view/searchScreen/search_screen.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
         providers: [ChangeNotifierProvider.value(value: imageProvider)],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Unsplash App',
           initialRoute: "/",
           routes: {
             '/': (_) => const Home(),

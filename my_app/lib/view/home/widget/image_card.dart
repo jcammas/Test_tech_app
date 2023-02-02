@@ -2,9 +2,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/helper/db_helper.dart';
+import 'package:my_app/model/model_db_helper.dart';
 import 'package:my_app/provider/provider_images.dart';
-import 'package:uuid/uuid.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
@@ -15,7 +14,11 @@ class ImageCard extends StatefulWidget {
   final String url;
   final String id;
 
-  const ImageCard({super.key, required this.url, required this.id});
+  const ImageCard({
+    super.key,
+    required this.url,
+    required this.id,
+  });
 
   @override
   State<ImageCard> createState() => _ImageCardState();
@@ -23,7 +26,6 @@ class ImageCard extends StatefulWidget {
 
 class _ImageCardState extends State<ImageCard> {
   bool isDownloading = false;
-  bool isFav = false;
 
   static const snackBar = SnackBar(
     content: Text('Successful download.'),
@@ -100,14 +102,13 @@ class _ImageCardState extends State<ImageCard> {
                       var rng = Random();
                       int id = rng.nextInt(100000000);
 
-                      setState(() {
-                        isFav = !isFav;
-                      });
                       Provider.of<ImgProvider>(context, listen: false)
                           .addToFavorites(
-                        ImageData(id: id, imageUrl: widget.url),
+                        ImageData(
+                          id: id,
+                          imageUrl: widget.url,
+                        ),
                       );
-                      print("j'ajoute en favoris");
                     },
                     icon: const Icon(
                       Icons.add,
@@ -115,30 +116,24 @@ class _ImageCardState extends State<ImageCard> {
                       color: Colors.grey,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      onPressed: () async {
-                        _downloadImage(widget.url);
-                      },
-                      icon: const Icon(
-                        Icons.download,
-                        size: 25,
-                        color: Colors.grey,
-                      ),
+                  IconButton(
+                    onPressed: () async {
+                      _downloadImage(widget.url);
+                    },
+                    icon: const Icon(
+                      Icons.download,
+                      size: 25,
+                      color: Colors.grey,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                      onPressed: () async {
-                        shareImage(widget.url);
-                      },
-                      icon: const Icon(
-                        Icons.share,
-                        size: 25,
-                        color: Colors.grey,
-                      ),
+                  IconButton(
+                    onPressed: () async {
+                      shareImage(widget.url);
+                    },
+                    icon: const Icon(
+                      Icons.share,
+                      size: 25,
+                      color: Colors.grey,
                     ),
                   ),
                 ],

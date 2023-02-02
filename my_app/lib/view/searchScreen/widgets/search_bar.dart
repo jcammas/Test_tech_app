@@ -26,6 +26,17 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
+  navigate(String searchController) {
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => SearchScreenResults(
+          query: searchController,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -51,19 +62,8 @@ class _SearchScreenState extends State<SearchScreen> {
                         onPressed: () async {
                           if (searchController.text.isEmpty) {
                           } else {
-                            // Object arguments = {"query": searchController.text};
-                            // String query = '/searchScreenResults';
-                            // Navigator.pushNamed(context, query,
-                            //     arguments: arguments);
-                            Navigator.push<void>(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    SearchScreenResults(
-                                  query: searchController.text,
-                                ),
-                              ),
-                            );
+                            navigate(searchController.text);
+                            searchController.clear();
                           }
                         },
                       ),
@@ -74,15 +74,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     onSubmitted: (value) async {
                       if (searchController.text.isEmpty) {
                       } else {
-                        Navigator.push<void>(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                SearchScreenResults(
-                              query: searchController.text,
-                            ),
-                          ),
-                        );
+                        navigate(searchController.text);
+                        searchController.clear();
                       }
                     },
                   ),

@@ -1,5 +1,8 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 import 'dart:io';
+import 'package:my_app/model/model_db_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -56,25 +59,5 @@ class DbHelper {
       imageDataList.add(ImageData.fromMap(list[i]));
     }
     return imageDataList;
-  }
-}
-
-class ImageData {
-  late int id;
-  late String imageUrl;
-
-  ImageData({required this.id, required this.imageUrl});
-
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'id': id,
-      'imageUrl': imageUrl,
-    };
-    return map;
-  }
-
-  ImageData.fromMap(Map<String, dynamic> map) {
-    id = map['id'];
-    imageUrl = map['imageUrl'];
   }
 }

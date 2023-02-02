@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_app/helper/db_helper.dart';
+import 'package:my_app/model/model_db_helper.dart';
 import 'package:my_app/model/model_search.dart';
 
 import '../model/model_images.dart';
@@ -18,18 +19,20 @@ class ImgProvider with ChangeNotifier {
   int page = 1;
   int pageSearch = 1;
 
-  List<ImageData> _favorites = [];
-  DbHelper _dbHelper = DbHelper();
+  final List<ImageData> _favorites = [];
+  final DbHelper _dbHelper = DbHelper();
 
   UnmodifiableListView<ImageData> get favs => UnmodifiableListView(_favorites);
 
-  Future<void> fetchFavorites() async {
-    _favorites = await _dbHelper.getAllImageData();
-    print(_favorites);
-    notifyListeners();
+  Future<List<ImageData>> fetchFavorites() async {
+    DbHelper dbHelper = DbHelper();
+    List<ImageData> imageDataList = await dbHelper.getAllImageData();
+
+    return imageDataList;
   }
 
   Future<void> addToFavorites(ImageData imageData) async {
+    removeFromFavorites(imageData);
     await _dbHelper.addImageData(imageData);
     _favorites.add(imageData);
     notifyListeners();
@@ -70,6 +73,7 @@ class ImgProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         final data = jsonData['results'] as List;
+
         _searchImages = data.map((item) => SearchModel.fromJson(item)).toList();
         if (data.isEmpty) {
           pageSearch--;
