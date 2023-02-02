@@ -68,7 +68,7 @@ class _FavorisListState extends State<FavorisList> {
     var rng = Random();
     int id = rng.nextInt(100000000);
     Provider.of<ImgProvider>(context, listen: false).removeFromFavorites(
-      ImageData(id: id, imageUrl: url),
+      ImageData(imageUrl: url),
     );
   }
 

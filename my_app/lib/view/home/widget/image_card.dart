@@ -109,7 +109,7 @@ class _ImageCardState extends State<ImageCard> {
                       Provider.of<ImgProvider>(context, listen: false)
                           .addToFavorites(
                         ImageData(
-                          id: id,
+                          id: id.toString(),
                           imageUrl: widget.url,
                         ),
                       );

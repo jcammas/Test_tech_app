@@ -1,5 +1,5 @@
 class ImageData {
-  late int? id;
+  late String? id;
   late String imageUrl;
 
   ImageData({
